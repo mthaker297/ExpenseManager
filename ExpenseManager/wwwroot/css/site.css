@@ -1,0 +1,135 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font-family: cursive;
+    background-image: url('../images/adventure-calm-clouds-dawn-414171.jpg');
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+
+/*****************************************************************
+/****************************** LOGIN **********************************
+******************************************************************/
+#login {
+    padding-top: 10%;
+    height: 100%;
+    display: table;
+    width: 100%;    
+    background-size: cover;
+}
+
+.loginbox-outer {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.loginbox {
+    background-color: rgba(17,34,74,.3);
+    width: 50%;
+    padding: 20px 50px 25px 50px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0,0,0,.2);
+}
+
+.loginbox .form-group {
+    padding-bottom: 20px;
+}
+
+/*.loginbox .form-control {
+    border-radius: 4px;
+    height: 38px;
+    outline: none !important;
+}*/
+
+.loginbox label {
+    font-size: 15px;
+    color: #FFF !important;
+    font-weight: normal !important;
+}
+
+.btn-login {
+    background: #eb4145;
+    height: 38px;
+    padding: 8px 30px;
+    border-radius: 4px;
+    color: #FFF;
+    transition: all ease 0.3s;
+    -webkit-transition: all ease 0.3s;
+}
+
+    .btn-login:hover {
+        color: #FFF;
+        background: #d4292d;
+    }
+
+.rememberme {
+    color: #FFF;
+}
+
+.font14 {
+    font-size: 14px;
+}
+
+.copyright {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    left: 0;
+    color: #fff;
+    background-color: #000;
+    font-size: 15px;
+}
+
+.marginBtn10 {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.welcomeLbl {
+    font-size: 15px;
+    color: #999;
+    /*padding: 10px 10px;*/
+    margin-top: 15px;
+}
+
+.projTitle{
+    
+    color: #ccc;
+}
+
+#tblExpenseData thead tr th{
+    cursor: pointer !important;
+}

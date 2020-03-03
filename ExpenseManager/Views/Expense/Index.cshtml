@@ -1,0 +1,153 @@
+﻿
+@model IEnumerable<ExpenseManager.Models.ExpenseReportModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Personal Expense Manager</h3>
+<br />
+<div class="row">
+    <div class="col-xs-4" style="float:left">
+        <button class="btn btn-primary marginBtn10" onclick="AddEditExpense(0)">Add Expense</button>
+        <button class="btn btn-success" onclick="ReportExpense()">Expense Report</button>
+    </div>
+
+    <div class="col-xs-8">
+        <nav class="navbar navbar-light bg-light">
+            <form asp-action="Index" asp-controller="Expense" method="get" class="form-inline" style="float:right;">
+                <select name="CategoryId" asp-items="@(new SelectList(ViewBag.ListOfCategories, "CategoryId","CategoryName"))" class="form-control">
+                    <option value="">Select Category</option>
+                </select>
+                <input name="ExpenseName" class="form-control mr-sm-2 marginBtn10" type="search" placeholder="Search by Expense name" aria-label="Search">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Apply Filter</button>
+                <a href="@Url.Action("Index", "Expense")" class="btn btn-danger">Reset Filter</a>
+            </form>
+        </nav>
+    </div>
+</div>
+<br />
+<br />
+<div class="table-responsive">
+    <table class="table table-bordered sortable" id="tblExpenseData" style="background-color: #fff;">
+        <thead>
+            <tr>
+                <th>Sr. No.</th>
+                <th>Expense Name</th>
+                <th>Amount</th>
+                <th>Expense Date</th>
+                <th>Category</th>
+                <th>Payment Type</th>
+                <th>Action Item</th>
+                <th>Delete Item</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() == 0)
+            {
+                <tr>
+                    <td colspan="7" class="text-center">No expense found.</td>
+                </tr>
+            }
+            @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i + 1 }))
+            {
+                <tr>                    
+                    <td>@Html.DisplayFor(m => item.Index)</td>
+                    <td>@Html.DisplayFor(m => item.Data.ExpenseName)</td>
+                    <td>@Html.DisplayFor(m => item.Data.Amount)</td>
+                    <td>@Html.DisplayFor(m => item.Data.ExpenseDate)</td>
+                    <td>@Html.DisplayFor(m => item.Data.Category.CategoryName)</td>
+                    <td>@Html.DisplayFor(m => item.Data.PaymentType.PaymentType)</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="AddEditExpense(@item.Data.ExpenseId);">Edit</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger deleteExpense" data-bind="@item.Data.ExpenseId">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="expenseFormModel" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">×</a>
+                <h3 id="title" class="modal-title">Add Expense</h3>
+            </div>
+            <div class="modal-body" id="expenseFormModelDiv">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="expenseReportModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">×</a>
+                <h3 class="modal-title">Expense Report</h3>
+            </div>
+            <div class="modal-body" id="expenseReportModalDiv">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.deleteExpense').click(function () {
+            DeleteExpense(this.closest('tr'));
+        })
+    })
+
+    function AddEditExpense(expenseId) {
+        //var url = "/Expense/ManageExpense?expenseId=" + expenseId;
+        var url = '@Url.Action("ManageExpense", "Expense")?expenseId=' + expenseId;
+        if (expenseId > 0)
+            $('#title').html("Edit Expense");
+        $("#expenseFormModelDiv").load(url, function () {
+            $("#expenseFormModel").modal("show");
+        });
+        $('#expenseFormModel').on('shown.bs.modal', function () {
+            $('#calender-container .input-group.date').datepicker({
+                todayBtn: true,
+                calendarWeeks: true,
+                format: 'dd-mm-yyyy',
+                todayHighlight: true,
+                autoclose: true,
+                container: '#expenseFormModel modal-body'
+            });
+        });
+    }
+
+    function DeleteExpense(row) {
+        if (confirm("Are you sure you want to delete this expense?")) {
+            var expenseId = parseInt($(row).find('.deleteExpense').attr("data-bind"));
+            $.ajax({
+                url: '@Url.Action("DeleteExpense", "Expense")',
+                type: 'POST',
+                data: {
+                    ExpenseId: expenseId
+                },
+                success: function () {
+                    $(row).remove();
+                },
+                error: function (xhr) {
+                    alert(xhr);
+                }
+            })
+        }
+        else {
+            return false;
+        }
+    }
+
+    function ReportExpense() {
+        var url = "/Expense/ExpenseSummary";
+        $("#expenseReportModalDiv").load(url, function () {
+            $("#expenseReportModal").modal("show");
+        })
+    }
+</script>

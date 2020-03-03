@@ -1,0 +1,95 @@
+﻿
+@model ExpenseManager.Models.ExpenseReportModel
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" rel="stylesheet">
+
+<style>
+    .dk-select {
+        width: 100%;
+    }
+
+    .dk-selected {
+        border: none;
+    }
+
+        .dk-selected:after {
+            border-left: none;
+        }
+</style>
+
+<div>
+    <div class="row">
+        <div class="col-md-12">
+            <form id="expenseForm" asp-action="ManageExpense" asp-controller="Expense" method="post">
+                <input type="hidden" asp-for="ExpenseId" />
+                <div class="form-group">
+                    <label asp-for="ExpenseName" class="control-label"></label>
+                    <input asp-for="ExpenseName" class="form-control" placeholder="Enter your expense " />
+                    <span asp-validation-for="ExpenseName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Category" class="control-label"></label><br />
+                    <select asp-for="CategoryId" asp-items="@(new SelectList(Model.ListOfCategories, "CategoryId","CategoryName"))" class="form-control">
+                        <option value="">-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Amount" class="control-label"></label>
+                    <input asp-for="Amount" class="form-control" />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>             
+                <div class="form-group">
+                    <label asp-for="PaymentType" class="control-label"></label><br />
+                    <select asp-for="PaymentTypeId" asp-items="@(new SelectList(Model.ListOfPaymentTypes, "PaymentTypeId","PaymentType"))" class="form-control">
+                        <option value="">-- Select Payment Type --</option>
+                    </select>
+                    <span asp-validation-for="PaymentTypeId" class="text-danger"></span>
+                </div>
+                <div class="form-group" id="calender-container">
+                    <label asp-for="ExpenseDate" class="control-label"></label>
+                    <div class="input-group date">
+                        <input asp-for="ExpenseDate" type="text" class="form-control">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                    <span asp-validation-for="ExpenseDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ExpenseDesc" class="control-label"></label>
+                    @Html.TextAreaFor(m => m.ExpenseDesc, new { @class = "form-control", @placeholder = "Enter description for the expense" })                    
+                </div>
+                <div class="form-group">
+                    <button type="button" id="btnSubmit" class="btn btn-block btn-info">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        $('#btnSubmit').on('click', function () {
+            debugger;
+            var myformdata = $("#expenseForm").serialize();
+            var valid = $("#expenseForm").valid();
+            if (valid == true) {
+                $.ajax({
+                 type: "POST",
+                 url: '@Url.Action("ManageExpense", "Expense")',
+                 data: myformdata,
+                 success: function () {
+                     $("#myModal").modal("hide");
+                     window.location.href = '@Url.Action("Index", "Expense")';
+                 },
+                 error: function (errormessage) {
+                     alert(errormessage.responseText);
+                 }
+             });
+            } 
+            
+        })
+    });
+</script>

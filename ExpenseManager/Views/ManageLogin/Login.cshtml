@@ -1,0 +1,43 @@
+﻿
+@model ExpenseManager.Models.UserModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Login start -->
+<div id="login">
+    <div class="loginbox-outer">
+        <div class="loginbox">
+            <h2 style="font-weight: bold; text-align: center;">Welcome to Expense Manager!!!</h2>
+            <hr />
+            <form method="post">
+                <section>
+                    <h3 style="font-weight: bold; text-align: center; padding-bottom: 20px;">Login User</h3>
+                    <div class="form-group">
+                        <label>Email<span style="color: red">*</span></label>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "form-danger", style = "color:red" })
+                    </div>
+                    <div class="form-group">
+                        <label>Password<span style="color: red">*</span></label>
+                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @type = "password" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "form-danger", style = "color:red" })
+                    </div>
+                    @if (TempData["Invalid"] != null)
+                    {
+                        <div class="form-group">
+                            <p style="color: red" id="successMsg1">@TempData["Invalid"]</p>
+                        </div>
+                    }
+                    <div style="text-align: center; color: #fff;">
+                        <button type="submit" class="btn btn-login">Login</button>
+                        <hr />
+                        Yet not a user? Then, <a href='@Url.Action("SignUp", "ManageLogin")' id="signup" style="color: #000;">Sign Up</a> now!!!
+                    </div>
+                </section>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Login end -->

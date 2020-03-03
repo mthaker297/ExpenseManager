@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+@*  style="background-image: url('https://farm3.staticflickr.com/2908/32764885503_1a04915b11_k.jpg')" *@
+@*  style="background-image: url('https://images.pexels.com/photos/414171/pexels-photo-414171.jpeg?cs=srgb&dl=adventure-calm-clouds-dawn-414171.jpg&fm=jpg')" *@
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ExpenseManager</title>
+
+    @* <-- Render CSS --> *@
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" rel="stylesheet">
+    <link href="~/css/datatables.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    @* <-- Render JS --> *@
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+    <script src="~/js/datatables.js"></script>
+    <script src="~/js/sorttable.js"></script>
+    @*<script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>*@
+
+</head>
+
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+<body>
+    <nav class="navbar navbar-inverse navbar-expand-lg navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <h1 class="projTitle" style="margin-top: 1px;">ExpenseManager</h1>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav" style="float: right">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        @*<li class="nav-item">
+                            <a href="@Url.Action("Index", "Expense")">Home</a>
+                        </li>*@
+                        <li class="nav-item">
+                            <label class="welcomeLbl">Welcome, @User.Identity.Name</label>
+                        </li>
+                        <li class="nav-item">
+                            <form method="post" asp-controller="ManageLogin" asp-action="Logout" style="padding: 10px;">
+                                <button type="submit" style="width:auto" class="nav-link btn btn-primary py-0">
+                                    Logout
+                                </button>
+                            </form>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        @RenderBody()
+        <footer>
+            <div class="copyright">Copyright All Rights Reserved &copy; @DateTime.Now.Year - ExpenseManager</div>
+        </footer>
+    </div>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

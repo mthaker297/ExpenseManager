@@ -1,0 +1,53 @@
+﻿
+
+@model ExpenseManager.Models.UserModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- SignUp start -->
+<div id="login">
+    <div class="loginbox-outer">
+        <div class="loginbox">
+            <h2 style="font-weight: bold; text-align: center;">Welcome to Expense Manager!!!</h2>
+            <hr />
+            <form method="post">
+                <section>
+                    <h3 style="font-weight: bold; text-align: center; padding-bottom: 20px;">Sign Up User</h3>
+                    <div class="form-group">
+                        <label>Fullname<span style="color: red">*</span></label>
+                        @Html.TextBoxFor(m => m.Fullname, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Fullname, "", new { @class = "form-danger", style = "color:red" })
+                    </div>
+                    <div class="form-group">
+                        <label>Email<span style="color: red">*</span></label>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "form-danger", style = "color:red" })
+                    </div>
+                    <div class="form-group">
+                        <label>Password<span style="color: red">*</span></label>
+                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @type = "password" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "form-danger", style = "color:red" })
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password<span style="color: red">*</span></label>
+                        @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control", @type = "password" })
+                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "form-danger", style = "color:red" })
+                    </div>
+                    @if (TempData["Invalid"] != null)
+                    {
+                        <div class="form-group">
+                            <p style="color: red" id="successMsg1">@TempData["Invalid"]</p>
+                        </div>
+                    }
+                    <div style="text-align: center">
+                        <button type="submit" class="btn btn-login">Sign Up</button>
+                    </div>
+                </section>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- SignUp end -->
+
